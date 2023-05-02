@@ -1,0 +1,110 @@
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+namespace UnityEasyNet
+{
+    /// <summary>
+    /// UDPの送信をする
+    /// </summary>
+    public class UDPSender : IDisposable
+    {
+        //TODO:IDisposableをよくわかってないのでDisposeの処理を実行するタイミングがない？
+        private UdpClient mUDP;
+
+        #region Constructors
+
+        /// <summary>
+        /// 指定したホスト名のポートにメッセージを送る準備を開始します
+        /// </summary>
+        /// <param name="_hostName">送信先のリモートホストのDNS名</param>
+        /// <param name="_port">送信先のポート番号</param>
+        public UDPSender(string _hostName, int _port)
+        {
+            try
+            {
+                mUDP = new UdpClient();
+                mUDP.Connect(_hostName, _port);
+                DebugUtility.Log($"送信準備完了");
+            }
+            catch (Exception e)
+            {
+                DebugUtility.LogError(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 指定したIPEndPointにメッセージを送る準備を開始します
+        /// </summary>
+        /// <param name="_ipEndPoint">送信先の情報が入ったIPEndPoint</param>
+        public UDPSender(IPEndPoint _ipEndPoint)
+        {
+            try
+            {
+                mUDP = new UdpClient();
+                mUDP.Connect(_ipEndPoint);
+                DebugUtility.Log($"送信準備完了");
+            }
+            catch (Exception e)
+            {
+                DebugUtility.LogError(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 指定したIPアドレスのポートにメッセージを送る準備を開始します
+        /// </summary>
+        /// <param name="_ipAddress">送信先のIPアドレス</param>
+        /// <param name="_port">送信先のポート番号</param>
+        public UDPSender(IPAddress _ipAddress, int _port)
+        {
+            try
+            {
+                mUDP = new UdpClient();
+                mUDP.Connect(_ipAddress, _port);
+                DebugUtility.Log($"送信準備完了");
+            }
+            catch (Exception e)
+            {
+                DebugUtility.LogError(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// ローカル内の指定したポートにメッセージを送る準備を開始します
+        /// </summary>
+        /// <param name="_port">送信先のポート番号</param>
+        public UDPSender(int _port)
+        {
+            try
+            {
+                mUDP = new UdpClient();
+                mUDP.Connect("localhost", _port);
+                DebugUtility.Log($"送信準備完了");
+            }
+            catch (Exception e)
+            {
+                DebugUtility.LogError(e.ToString());
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 登録したポートに文字列を送信する
+        /// </summary>
+        /// <param name="s">送信する文字列</param>
+        public void Send(string s)
+        {
+            byte[] Byte = Encoding.UTF8.GetBytes(s);
+            mUDP.Send(Byte, Byte.Length);
+            DebugUtility.Log("Send");
+        }
+
+        public void Dispose()
+        {
+            mUDP?.Dispose();
+        }
+    }
+}
