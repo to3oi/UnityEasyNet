@@ -97,9 +97,16 @@ namespace UnityEasyNet
         /// <param name="s">送信する文字列</param>
         public void Send(string s)
         {
-            byte[] Byte = Encoding.UTF8.GetBytes(s);
-            mUDP.Send(Byte, Byte.Length);
-            DebugUtility.Log("Send");
+            try
+            {
+                byte[] Byte = Encoding.UTF8.GetBytes(s);
+                mUDP.SendAsync(Byte, Byte.Length);
+                DebugUtility.Log("Send");
+            }
+            catch (Exception e)
+            {
+                DebugUtility.LogError(e.ToString());
+            }
         }
 
         public void Dispose()
