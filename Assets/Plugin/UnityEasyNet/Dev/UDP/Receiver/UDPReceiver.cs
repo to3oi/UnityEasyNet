@@ -14,16 +14,21 @@ namespace UnityEasyNet
 
         private UdpClient mUDP;
 
-        //データを受信した際に受信したデータを通知する
+        /// <summary>
+        /// データを受信した際に受信したデータを通知する
+        /// </summary>
         public Action<string> OnDataReceived;
 
-        //データを受信した際に送信元の情報を通知する
+        /// <summary>
+        /// データを受信した際に送信元の情報を通知する
+        /// </summary>
         public Action<IPEndPoint> OnIPEndPointReceived;
 
         #region Constructors
 
         /// <summary>
         /// 指定したポート番号でUDPの受信を開始します
+        /// このコンストラクターは一応残してありますが受信したデータを取り扱うことはできません
         /// </summary>
         /// <param name="_port">受信するポート番号</param>
         public UDPReceiver(int _port)
