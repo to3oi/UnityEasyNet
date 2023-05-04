@@ -13,7 +13,7 @@ namespace dev_UnityEasyNet
         [SerializeField] private InputField _inputField;
         void Start()
         {
-            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"),10021);
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"),13000);
             //mTCPSender = new TCPSender("127.0.0.1",11000);
             mTCPSender = new TCPSender(ipEndPoint);
         }
