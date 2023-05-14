@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 public class UDPReceiver_Sample : MonoBehaviour
 {
-
     private UDPReceiver mUDPReceiver;
-    
+
     [SerializeField] private Text mLocalIPAddress;
 
     [SerializeField] private InputField mReceivePort;
@@ -21,6 +20,7 @@ public class UDPReceiver_Sample : MonoBehaviour
     [SerializeField] private Text mReceiveText;
 
     private int mReciveCount = 0;
+    private string mReceiveMessage;
     private bool mConected = false;
 
     void Start()
@@ -38,10 +38,9 @@ public class UDPReceiver_Sample : MonoBehaviour
         }
 
         mReceiveText.text = "";
-        
+
         mOnlyPortConnectButton.onClick.AddListener(OnlyConnect);
         mAnyPortConnectButton.onClick.AddListener(AnyConnect);
-
     }
 
     /// <summary>
@@ -59,7 +58,7 @@ public class UDPReceiver_Sample : MonoBehaviour
         try
         {
             //UDPReceiverの接続処理
-            mUDPReceiver = new UDPReceiver(int.Parse(mReceivePort.text),ReceiveDataUpdate);
+            mUDPReceiver = new UDPReceiver(int.Parse(mReceivePort.text), ReceiveDataUpdate);
         }
         catch (Exception e)
         {
@@ -77,7 +76,7 @@ public class UDPReceiver_Sample : MonoBehaviour
     {
         //実装中
         return;
-        
+
         if (mConected)
         {
             return;
@@ -88,7 +87,7 @@ public class UDPReceiver_Sample : MonoBehaviour
         try
         {
             //UDPReceiverの接続処理
-            mUDPReceiver = new UDPReceiver(int.Parse(mReceivePort.text),ReceiveDataUpdate);
+            mUDPReceiver = new UDPReceiver(int.Parse(mReceivePort.text), ReceiveDataUpdate);
         }
         catch (Exception e)
         {
@@ -98,16 +97,17 @@ public class UDPReceiver_Sample : MonoBehaviour
 
         mAnyPortConnectImage.color = Color.green;
     }
-    
-    
+
+
     void ReceiveDataUpdate(String s)
     {
-        if (mConected)
+        if (!mConected)
         {
             return;
         }
 
         mReciveCount++;
+
 
         if (10 <= mReciveCount)
         {
@@ -116,13 +116,21 @@ public class UDPReceiver_Sample : MonoBehaviour
             int index = str.IndexOf(delimiter);
             if (index != -1)
             {
-                mReceiveText.text = str.Substring(index + delimiter.Length);
+                mReceiveMessage = str.Substring(index + delimiter.Length);
             }
+            mReceiveMessage += s;
+            mReceiveMessage += "\n";
         }
         else
         {
-            mReceiveText.text += s;
-            mReceiveText.text += "\n";
+            mReceiveMessage += s;
+            mReceiveMessage += "\n";
         }
+    }
+
+    void Update()
+    {
+        //ReceiveDataUpdateで実装するとUIの更新がされないためUpdateで実装
+        mReceiveText.text = mReceiveMessage;
     }
 }
