@@ -76,6 +76,7 @@ public class UDPReceiver_Sample : MonoBehaviour
         mReciveCount++;
 
 
+        //10回以上受信した際、一番古い受信を削除する
         if (10 <= mReciveCount)
         {
             string str = mReceiveText.text;
@@ -85,14 +86,10 @@ public class UDPReceiver_Sample : MonoBehaviour
             {
                 mReceiveMessage = str.Substring(index + delimiter.Length);
             }
-            mReceiveMessage += s;
-            mReceiveMessage += "\n";
         }
-        else
-        {
-            mReceiveMessage += s;
-            mReceiveMessage += "\n";
-        }
+
+        mReceiveMessage += s;
+        mReceiveMessage += "\n";
     }
 
     void Update()
