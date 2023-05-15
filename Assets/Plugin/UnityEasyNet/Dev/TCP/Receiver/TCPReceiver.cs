@@ -18,7 +18,7 @@ namespace UnityEasyNet
         /// <summary>
         /// データを受信した際に受信したデータを通知する
         /// </summary>
-        public Action<string> OnDataReceived;
+        public Action<(byte[] buffer, int readCount)> OnDataReceivedBytes;
 
         /// <summary>
         ///データを受信した際に送信元の情報を通知する
@@ -32,37 +32,14 @@ namespace UnityEasyNet
 
         /// <summary>
         /// 指定したポート番号でTCPの受信を開始します
-        /// このコンストラクターは一応残してありますが受信したデータを取り扱うことはできません
         /// </summary>
         /// <param name="_port">受信するポート番号</param>
-        public TCPReceiver(int _port)
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
+        public TCPReceiver(int _port, Action<(byte[] buffer, int readCount)> _OnDataReceivedBytes)
         {
             try
             {
-                IPAddress ipAddress = IPAddress.Any;
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, _port);
-
-                mTcpListener = new TcpListener(remoteEP);
-                isRunning = true;
-
-                StartListening();
-            }
-            catch (Exception e)
-            {
-                DebugUtility.LogError(e.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 指定したポート番号でTCPの受信を開始します
-        /// </summary>
-        /// <param name="_port">受信するポート番号</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
-        public TCPReceiver(int _port, Action<string> _OnDataReceived)
-        {
-            try
-            {
-                OnDataReceived = _OnDataReceived;
+                OnDataReceivedBytes = _OnDataReceivedBytes;
 
                 IPAddress ipAddress = IPAddress.Any;
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, _port);
@@ -82,13 +59,14 @@ namespace UnityEasyNet
         /// 指定したポート番号でTCPの受信を開始します
         /// </summary>
         /// <param name="_port">受信するポート番号</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
         /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public TCPReceiver(int _port, Action<string> _OnDataReceived, Action<IPEndPoint> _OnIPEndPointReceived)
+        public TCPReceiver(int _port, Action<(byte[] buffer, int readCount)> _OnDataReceivedBytes,
+            Action<IPEndPoint> _OnIPEndPointReceived)
         {
             try
             {
-                OnDataReceived = _OnDataReceived;
+                OnDataReceivedBytes = _OnDataReceivedBytes;
                 OnIPEndPointReceived = _OnIPEndPointReceived;
 
                 IPAddress ipAddress = IPAddress.Any;
@@ -105,16 +83,19 @@ namespace UnityEasyNet
             }
         }
 
+
         /// <summary>
         /// 指定したIPアドレスとポート番号でTCPの受信を開始します
-        /// このコンストラクターは一応残してありますが受信したデータを取り扱うことはできません
         /// </summary>
         /// <param name="_ipAddress">受信するIPアドレス</param>
         /// <param name="_port">受信するポート番号</param>
-        public TCPReceiver(IPAddress _ipAddress, int _port)
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
+        public TCPReceiver(IPAddress _ipAddress, int _port, Action<(byte[] buffer, int readCount)> _OnDataReceivedBytes)
         {
             try
             {
+                OnDataReceivedBytes = _OnDataReceivedBytes;
+
                 IPEndPoint remoteEP = new IPEndPoint(_ipAddress, _port);
 
                 mTcpListener = new TcpListener(remoteEP);
@@ -133,37 +114,16 @@ namespace UnityEasyNet
         /// </summary>
         /// <param name="_ipAddress">受信するIPアドレス</param>
         /// <param name="_port">受信するポート番号</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
         /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public TCPReceiver(IPAddress _ipAddress, int _port, Action<string> _OnDataReceived)
-        {
-            try
-            {
-                IPEndPoint remoteEP = new IPEndPoint(_ipAddress, _port);
-
-                mTcpListener = new TcpListener(remoteEP);
-                isRunning = true;
-
-                StartListening();
-            }
-            catch (Exception e)
-            {
-                DebugUtility.LogError(e.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 指定したIPアドレスとポート番号でTCPの受信を開始します
-        /// </summary>
-        /// <param name="_ipAddress">受信するIPアドレス</param>
-        /// <param name="_port">受信するポート番号</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
-        /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public TCPReceiver(IPAddress _ipAddress, int _port, Action<string> _OnDataReceived,
+        public TCPReceiver(IPAddress _ipAddress, int _port, Action<(byte[] buffer, int readCount)> _OnDataReceivedBytes,
             Action<IPEndPoint> _OnIPEndPointReceived)
         {
             try
             {
+                OnDataReceivedBytes = _OnDataReceivedBytes;
+                OnIPEndPointReceived = _OnIPEndPointReceived;
+
                 IPEndPoint remoteEP = new IPEndPoint(_ipAddress, _port);
 
                 mTcpListener = new TcpListener(remoteEP);
@@ -179,37 +139,14 @@ namespace UnityEasyNet
 
         /// <summary>
         /// 指定したIPEndPointでTCPの受信を開始します
-        /// このコンストラクターは一応残してありますが受信したデータを取り扱うことはできません
         /// </summary>
         /// <param name="_remoteEP">接続先の情報が入ったIPEndPoint</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
-        /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public TCPReceiver(IPEndPoint _remoteEP)
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
+        public TCPReceiver(IPEndPoint _remoteEP, Action<(byte[] buffer, int readCount)> _OnDataReceivedBytes)
         {
             try
             {
-                mTcpListener = new TcpListener(_remoteEP);
-                isRunning = true;
-
-                StartListening();
-            }
-            catch (Exception e)
-            {
-                DebugUtility.LogError(e.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 指定したIPEndPointでTCPの受信を開始します
-        /// </summary>
-        /// <param name="_remoteEP">接続先の情報が入ったIPEndPoint</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
-        /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public TCPReceiver(IPEndPoint _remoteEP, Action<string> _OnDataReceived)
-        {
-            try
-            {
-                OnDataReceived = _OnDataReceived;
+                OnDataReceivedBytes = _OnDataReceivedBytes;
 
                 mTcpListener = new TcpListener(_remoteEP);
                 isRunning = true;
@@ -226,14 +163,14 @@ namespace UnityEasyNet
         /// 指定したIPEndPointでTCPの受信を開始します
         /// </summary>
         /// <param name="_remoteEP">接続先の情報が入ったIPEndPoint</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
         /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public TCPReceiver(IPEndPoint _remoteEP, Action<string> _OnDataReceived,
+        public TCPReceiver(IPEndPoint _remoteEP, Action<(byte[] buffer, int readCount)> _OnDataReceivedBytes,
             Action<IPEndPoint> _OnIPEndPointReceived)
         {
             try
             {
-                OnDataReceived = _OnDataReceived;
+                OnDataReceivedBytes = _OnDataReceivedBytes;
                 OnIPEndPointReceived = _OnIPEndPointReceived;
 
                 mTcpListener = new TcpListener(_remoteEP);
@@ -291,9 +228,7 @@ namespace UnityEasyNet
                             return;
                         }
 
-                        string result = Encoding.UTF8.GetString(receiveBuffer, 0, byteSize);
-                        DebugUtility.Log($"get {result}");
-                        OnDataReceived?.Invoke(result);
+                        OnDataReceivedBytes?.Invoke((receiveBuffer, byteSize));
                         OnIPEndPointReceived?.Invoke((IPEndPoint)tcpClient.Client.RemoteEndPoint);
                     }
                 }

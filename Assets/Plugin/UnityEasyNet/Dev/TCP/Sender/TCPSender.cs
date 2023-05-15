@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace UnityEasyNet
 {
@@ -10,7 +9,7 @@ namespace UnityEasyNet
     /// </summary>
     public class TCPSender : IDisposable
     {
-        private TcpClient mTcpClient;
+        protected TcpClient mTcpClient;
         private NetworkStream mNetworkStream;
 
 
@@ -82,10 +81,10 @@ namespace UnityEasyNet
 
 
         /// <summary>
-        /// 登録したアドレスのポートに文字列を送信する
+        /// 登録したアドレスのポートにbyte配列を送信する
         /// </summary>
-        /// <param name="s">送信する文字列</param>
-        public async void Send(string s)
+        /// <param name="bytes">送信するbyte配列</param>
+        public void Send(byte[] bytes)
         {
             try
             {
@@ -94,10 +93,9 @@ namespace UnityEasyNet
                     DebugUtility.LogError($"接続が確立されていません");
                     return;
                 }
-                var buffer = Encoding.UTF8.GetBytes(s);
-                //非同期で処理
-                IAsyncResult result = mNetworkStream.BeginWrite(buffer, 0, buffer.Length,null,null);
-                DebugUtility.Log($"送信成功：{s}");
+                
+                mNetworkStream.BeginWrite(bytes, 0, bytes.Length, null, null);
+                DebugUtility.Log($"送信成功");
             }
             catch (Exception e)
             {

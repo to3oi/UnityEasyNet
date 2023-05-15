@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Net;
 using UnityEasyNet;
 using UnityEngine;
@@ -8,11 +6,11 @@ namespace dev_UnityEasyNet
 {
     public class dev_TCPReceiver : MonoBehaviour
     {
-        private TCPReceiver tcpReceiver;
+        private TCPReceiverString tcpReceiver;
 
         void Start()
         {
-            tcpReceiver = new TCPReceiver(13000, test,test2);
+            tcpReceiver = new TCPReceiverString(13000, test,test2);
         }
 
         void test(string s)
