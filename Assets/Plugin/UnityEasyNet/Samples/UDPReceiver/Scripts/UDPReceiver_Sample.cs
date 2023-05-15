@@ -14,9 +14,6 @@ public class UDPReceiver_Sample : MonoBehaviour
     [SerializeField] private Image mOnlyPortConnectImage;
     [SerializeField] private Button mOnlyPortConnectButton;
 
-    [SerializeField] private Image mAnyPortConnectImage;
-    [SerializeField] private Button mAnyPortConnectButton;
-
     [SerializeField] private Text mReceiveText;
 
     private int mReciveCount = 0;
@@ -40,7 +37,6 @@ public class UDPReceiver_Sample : MonoBehaviour
         mReceiveText.text = "";
 
         mOnlyPortConnectButton.onClick.AddListener(OnlyConnect);
-        mAnyPortConnectButton.onClick.AddListener(AnyConnect);
     }
 
     /// <summary>
@@ -67,35 +63,6 @@ public class UDPReceiver_Sample : MonoBehaviour
         }
 
         mOnlyPortConnectImage.color = Color.green;
-    }
-
-    /// <summary>
-    /// すべてのポートで接続開始
-    /// </summary>
-    public void AnyConnect()
-    {
-        //実装中
-        return;
-
-        if (mConected)
-        {
-            return;
-        }
-
-        mConected = true;
-
-        try
-        {
-            //UDPReceiverの接続処理
-            mUDPReceiver = new UDPReceiver(int.Parse(mReceivePort.text), ReceiveDataUpdate);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
-        mAnyPortConnectImage.color = Color.green;
     }
 
 
