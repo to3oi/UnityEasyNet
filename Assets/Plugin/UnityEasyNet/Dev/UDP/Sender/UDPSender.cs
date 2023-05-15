@@ -1,17 +1,16 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace UnityEasyNet
 {
     /// <summary>
     /// UDPの送信をする
-    /// </summary>
+    /// </summary>　
     public class UDPSender : IDisposable
     {
         //TODO:IDisposableをよくわかってないのでDisposeの処理を実行するタイミングがない？
-        private UdpClient mUDP;
+        protected UdpClient mUDP;
 
         #region Constructors
 
@@ -91,16 +90,16 @@ namespace UnityEasyNet
 
         #endregion
 
+        
         /// <summary>
-        /// 登録したポートに文字列を送信する
+        /// 登録したポートにbyte配列を送信する
         /// </summary>
-        /// <param name="s">送信する文字列</param>
-        public void Send(string s)
+        /// <param name="bytes">送信するbyte配列</param>
+        public void Send(byte[] bytes)
         {
             try
             {
-                byte[] Byte = Encoding.UTF8.GetBytes(s);
-                mUDP.SendAsync(Byte, Byte.Length);
+                mUDP.SendAsync(bytes, bytes.Length);
                 DebugUtility.Log("Send");
             }
             catch (Exception e)

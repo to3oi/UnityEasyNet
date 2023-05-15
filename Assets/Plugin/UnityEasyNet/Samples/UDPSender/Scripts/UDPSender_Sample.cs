@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UDPSender_Sample : MonoBehaviour
 {
-    private UDPSender mUdpSender;
+    private UDPSenderString mUDPSenderString;
 
     [SerializeField] private Text mLocalIPAddress;
     [SerializeField] private InputField mSendIPAddress;
@@ -55,7 +55,7 @@ public class UDPSender_Sample : MonoBehaviour
         try
         {
             //UDPSenderの接続処理
-            mUdpSender = new UDPSender(mSendIPAddress.text, int.Parse(mSendPort.text));
+            mUDPSenderString = new UDPSenderString(mSendIPAddress.text, int.Parse(mSendPort.text));
         }
         catch (Exception e)
         {
@@ -79,7 +79,7 @@ public class UDPSender_Sample : MonoBehaviour
         try
         {
             //メッセージの送信
-            mUdpSender.Send(mSendText.text);
+            mUDPSenderString.Send(mSendText.text);
         }
         catch (Exception e)
         {
