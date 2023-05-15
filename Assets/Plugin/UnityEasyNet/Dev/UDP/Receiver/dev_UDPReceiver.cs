@@ -7,7 +7,7 @@ namespace dev_UnityEasyNet
     {
         void Start()
         {
-            UDPReceiver udpReceiver = new UDPReceiver(10000,test);
+            UDPReceiverString udpReceiver = new UDPReceiverString(10000,test);
         }
 
         void test(string s)

@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace UnityEasyNet
 {
@@ -17,7 +16,7 @@ namespace UnityEasyNet
         /// <summary>
         /// データを受信した際に受信したデータを通知する
         /// </summary>
-        public Action<string> OnDataReceived;
+        public Action<byte[]> OnDataReceivedBytes;
 
         /// <summary>
         /// データを受信した際に送信元の情報を通知する
@@ -28,34 +27,15 @@ namespace UnityEasyNet
 
         /// <summary>
         /// 指定したポート番号でUDPの受信を開始します
-        /// このコンストラクターは一応残してありますが受信したデータを取り扱うことはできません
         /// </summary>
         /// <param name="_port">受信するポート番号</param>
-        public UDPReceiver(int _port)
-        {
-            try
-            {
-                mUDP = new UdpClient(_port);
-                mUDP.BeginReceive(UDPReceive, mUDP);
-                DebugUtility.Log($"受信開始");
-            }
-            catch (Exception e)
-            {
-                DebugUtility.LogError(e.ToString());
-            }
-        }
-
-        /// <summary>
-        /// 指定したポート番号でUDPの受信を開始します
-        /// </summary>
-        /// <param name="_port">受信するポート番号</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
-        public UDPReceiver(int _port, Action<string> _OnDataReceived)
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
+        public UDPReceiver(int _port, Action<byte[]> _OnDataReceivedBytes)
         {
             try
             {
                 //アクションの登録
-                OnDataReceived = _OnDataReceived;
+                OnDataReceivedBytes = _OnDataReceivedBytes;
 
                 mUDP = new UdpClient(_port);
                 mUDP.BeginReceive(UDPReceive, mUDP);
@@ -71,14 +51,14 @@ namespace UnityEasyNet
         /// 指定したポート番号でUDPの受信を開始します
         /// </summary>
         /// <param name="_port">受信するポート番号</param>
-        /// <param name="_OnDataReceived">受信したデータを通知するメソッド</param>
+        /// <param name="_OnDataReceivedBytes">受信したデータを通知するメソッド</param>
         /// <param name="_OnIPEndPointReceived">送信元のIPEndPointを通知するメソッド</param>
-        public UDPReceiver(int _port, Action<string> _OnDataReceived, Action<IPEndPoint> _OnIPEndPointReceived)
+        public UDPReceiver(int _port, Action<byte[]> _OnDataReceivedBytes, Action<IPEndPoint> _OnIPEndPointReceived)
         {
             try
             {
                 //アクションの登録
-                OnDataReceived = _OnDataReceived;
+                OnDataReceivedBytes = _OnDataReceivedBytes;
                 OnIPEndPointReceived = _OnIPEndPointReceived;
 
                 mUDP = new UdpClient(_port);
@@ -115,22 +95,20 @@ namespace UnityEasyNet
 
         #endregion
 
+        /// <summary>
+        /// 受信したときの処理
+        /// </summary>
+        /// <param name="res"></param>
         void UDPReceive(IAsyncResult res)
         {
             UdpClient getUDP = (UdpClient)res.AsyncState;
             IPEndPoint ipEnd = null;
-
+            
+            byte[] bytes = getUDP.EndReceive(res, ref ipEnd);
             try
             {
-                //受信データの取得
-                byte[] getByte = getUDP.EndReceive(res, ref ipEnd);
-
-                //UTF8でエンコード
-                string s = Encoding.UTF8.GetString(getByte);
-
-                //受け取ったデータを通知
-                OnDataReceived?.Invoke(s);
-
+                //byte[]を通知
+                OnDataReceivedBytes.Invoke(bytes);
                 //IPEndPointを通知
                 OnIPEndPointReceived?.Invoke(ipEnd);
             }

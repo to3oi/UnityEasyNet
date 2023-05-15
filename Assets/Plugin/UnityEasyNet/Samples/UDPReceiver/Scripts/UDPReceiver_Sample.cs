@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UDPReceiver_Sample : MonoBehaviour
 {
-    private UDPReceiver mUDPReceiver;
+    private UDPReceiverString mUDPReceiverString;
 
     [SerializeField] private Text mLocalIPAddress;
 
@@ -54,7 +54,7 @@ public class UDPReceiver_Sample : MonoBehaviour
         try
         {
             //UDPReceiverの接続処理
-            mUDPReceiver = new UDPReceiver(int.Parse(mReceivePort.text), ReceiveDataUpdate);
+            mUDPReceiverString = new UDPReceiverString(int.Parse(mReceivePort.text), ReceiveDataUpdate);
         }
         catch (Exception e)
         {
