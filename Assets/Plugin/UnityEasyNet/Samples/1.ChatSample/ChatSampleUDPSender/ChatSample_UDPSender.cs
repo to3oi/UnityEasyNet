@@ -4,7 +4,7 @@ using UnityEasyNet;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UDPSender_Sample : MonoBehaviour
+public class ChatSample_UDPSender : MonoBehaviour
 {
     private UDPSenderString mUDPSenderString;
 
