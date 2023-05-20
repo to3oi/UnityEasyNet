@@ -27,3 +27,6 @@ mUDPSenderString.Send(/*テキスト*/);
 
 # Samples
 [サンプル一覧はこちら](https://github.com/tomoi/UnityEasyNet/tree/main/Assets/Plugins/UnityEasyNet/Scripts/Samples~/UnityEasyNet)
+
+# licenses
+MIT
