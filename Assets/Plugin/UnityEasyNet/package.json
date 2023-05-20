@@ -1,0 +1,27 @@
+{
+    "name": "com.rngtm.vfx-toolbox",
+    "displayName": "UnityEasyNet", 
+    "version": "0.0.1",
+    "unity": "2021.3.19",
+    "description": "Simplify Unity communication.",
+    "author": {
+        "name": "tomoi",
+        "url": "https://github.com/tomoi"
+    },
+
+    "keywords": [
+        "udp",
+        "tcp",
+        "network"
+    ],
+
+    "dependencies": {
+    },
+    "samples": [
+        {
+            "displayName": "ChatSample",
+            "description": "Sample of sending and receiving strings.",
+            "path": "Samples/UnityEasyNet/1.ChatSample"
+        }
+    ]
+}
