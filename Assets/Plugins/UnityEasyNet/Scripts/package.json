@@ -21,7 +21,7 @@
         {
             "displayName": "ChatSample",
             "description": "Sample of sending and receiving strings.",
-            "path": "../Samples/UnityEasyNet/1.ChatSample"
+            "path": "Samples~/UnityEasyNet/1.ChatSample"
         }
     ]
 }
