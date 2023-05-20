@@ -1,6 +1,6 @@
 {
     "name": "com.rngtm.vfx-toolbox",
-    "displayName": "UnityEasyNet", 
+    "displayName": "UnityEasyNet",
     "version": "0.0.1",
     "unity": "2021.3",
     "description": "Simplify Unity communication.",
@@ -21,7 +21,7 @@
         {
             "displayName": "ChatSample",
             "description": "Sample of sending and receiving strings.",
-            "path": "Samples/UnityEasyNet/1.ChatSample"
+            "path": "../Samples/UnityEasyNet/1.ChatSample"
         }
     ]
 }
