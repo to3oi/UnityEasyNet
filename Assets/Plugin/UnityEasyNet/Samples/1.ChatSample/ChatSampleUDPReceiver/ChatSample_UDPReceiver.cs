@@ -4,7 +4,7 @@ using UnityEasyNet;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UDPReceiver_Sample : MonoBehaviour
+public class ChatSample_UDPReceiver : MonoBehaviour
 {
     private UDPReceiverString mUDPReceiverString;
 
