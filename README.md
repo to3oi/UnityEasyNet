@@ -23,7 +23,7 @@ mUDPSenderString.Send(/*テキスト*/);
 ```
 
 # UPM
-`https://github.com/tomoi/UnityEasyNet.git?path=Assets/Plugins/UnityEasyNet/Scripts`をUnity Package Manager の`Add package from git url`で追加してください。
+`https://github.com/to3oi/UnityEasyNet.git?path=Assets/Plugins/UnityEasyNet/Scripts`をUnity Package Manager の`Add package from git url`で追加してください。
 
 # Samples
 [サンプル一覧はこちら](https://github.com/tomoi/UnityEasyNet/tree/main/Assets/Plugins/UnityEasyNet/Scripts/Samples~/UnityEasyNet)
