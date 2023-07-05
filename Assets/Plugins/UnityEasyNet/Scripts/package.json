@@ -2,7 +2,7 @@
     "name": "com.tomoi.EasyNet4Unity",
     "displayName": "EasyNet4Unity",
     "version": "0.0.2",
-    "unity": "2021.3",
+    "unity": "2018.1",
     "description": "Simplify Unity communication.",
 
     "keywords": [
