@@ -1,9 +1,13 @@
 {
-    "name": "com.tomoi.EasyNet4Unity",
-    "displayName": "EasyNet4Unity",
+    "name": "com.to3oi.unityeasynet",
+    "displayName": "UnityEasyNet",
     "version": "0.0.2",
-    "unity": "2018.1",
+    "unity": "2018.3",
     "description": "Simplify Unity communication.",
+    "author": {
+        "name": "to3oi",
+        "url": "https://github.com/to3oi"
+    },
 
     "keywords": [
         "udp",
@@ -12,5 +16,12 @@
     ],
 
     "dependencies": {
-    }
+    },
+    "samples": [
+        {
+            "displayName": "ChatSample",
+            "description": "Sample of sending and receiving strings.",
+            "path": "Samples~/UnityEasyNet/1.ChatSample"
+        }
+    ]
 }
