@@ -1,6 +1,6 @@
 {
-    "name": "com.to3oi.UnityEasyNet",
-    "displayName": "UnityEasyNet",
+    "name": "com.to3oi.EasyNet4Unity",
+    "displayName": "EasyNet4Unity",
     "version": "0.0.2",
     "unity": "2021.3",
     "description": "Simplify Unity communication.",
